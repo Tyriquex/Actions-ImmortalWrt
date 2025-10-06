@@ -93,7 +93,14 @@ jobs:
           repository: '${{inputs.owner}}/${{inputs.repo}}'
           ref: ${{inputs.branch}}
           path: ImmortalWrt
-          
+
+      - name: 调试：列出文件以确认路径 (Debug: List files to confirm path)
+        run: |
+          echo "当前工作目录文件:"
+          ls -a
+          echo "ImmortalWrt 目录文件:"
+          ls -a ImmortalWrt/
+
       - name: 复制当前仓库的配置文件到 ImmortalWrt 仓库  (Copy current repo config to ImmortalWrt repo)
         run: cp -f .config feeds.conf.default diy.sh ImmortalWrt/
 
