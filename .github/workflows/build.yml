@@ -94,7 +94,7 @@ jobs:
           ref: ${{inputs.branch}}
           path: ImmortalWrt
 
-      - name: 调试：列出文件以确认路径 (Debug: List files to confirm path)
+      - name: 调试：列出文件以确认路径
         run: |
           echo "当前工作目录文件:"
           ls -a
