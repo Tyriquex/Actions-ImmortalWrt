@@ -30,7 +30,7 @@ on:
 jobs:
   build:
     if: ${{inputs.ssh == false}}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     name: 🚀 编译 (Build)
     steps:
       - name: 下载编译所需的依赖 (Install the software packages required for compilation)
@@ -93,17 +93,6 @@ jobs:
           repository: '${{inputs.owner}}/${{inputs.repo}}'
           ref: ${{inputs.branch}}
           path: ImmortalWrt
-
-      - name: Free Disk Space
-        uses: jlumbroso/free-disk-space@main
-        with:
-          # 启用所有可用的清理选项
-          tool-cache: true
-          android: true
-          dotnet: true
-          haskell: true
-          swap-storage: true
-          large-packages: true
           
       - name: 复制当前仓库的配置文件到 ImmortalWrt 仓库  (Copy current repo config to ImmortalWrt repo)
         run: cp -f .config feeds.conf.default diy.sh ImmortalWrt/
