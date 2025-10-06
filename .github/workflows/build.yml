@@ -38,8 +38,8 @@ jobs:
           sudo apt update
           sudo apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libfuse-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libpython3-dev libreadline-dev libssl-dev libtool lrzsz mkisofs msmtp ninja-build p7zip p7zip-full patch pkgconf python3 python3-pyelftools python3-setuptools qemu-utils rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev
 
-      - name: 克隆当前仓库 (Clone current repo)
-        uses: actions/checkout@v4
+#      - name: 克隆当前仓库 (Clone current repo)
+#        uses: actions/checkout@v4
 
       - name: Before freeing up disk space
         run: |
@@ -94,6 +94,11 @@ jobs:
           ref: ${{inputs.branch}}
           path: ImmortalWrt
 
+      - name: 克隆当前仓库的配置文件 (Clone config files from current repo)
+        uses: actions/checkout@v4
+        with:
+          path: ConfigRepo # 👈 将您的配置文件克隆到 ConfigRepo 目录下
+
       - name: 调试：列出文件以确认路径
         run: |
           echo "当前工作目录文件:"
@@ -102,7 +107,8 @@ jobs:
           ls -a ImmortalWrt/
 
       - name: 复制当前仓库的配置文件到 ImmortalWrt 仓库  (Copy current repo config to ImmortalWrt repo)
-        run: cp -f .config feeds.conf.default diy.sh ImmortalWrt/
+        # 现在从 ConfigRepo 目录复制文件，避免直接在根目录操作
+        run: cp -f ConfigRepo/.config ConfigRepo/feeds.conf.default ConfigRepo/diy.sh ImmortalWrt/
 
       - name: 运行 diy.sh (Run diy.sh)
         working-directory: ImmortalWrt
